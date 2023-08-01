@@ -1,0 +1,110 @@
+body{
+	background-color: black !important;
+}
+
+dl, ol, ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.imgPreview img {
+	padding: 8px;
+	max-width: 100px;
+}
+
+.bg-login-image {
+	background:
+		url("https://i.postimg.cc/9Xn4DpfG/night-photograpy-toronto-on-1641178.jpg");
+	background-position: center;
+	background-size: cover;
+	border-radius: 20px;
+}
+
+.h4 {
+	font-size: 2rem;
+	font-weight: 600;
+	font-family: 'Pacifico', cursive;
+}
+
+
+.fa-facebook {
+	font-size: 2.5rem;
+	color: rgb(39, 39, 192);
+	cursor: pointer;
+	font: center;
+}
+
+.fa-google-plus {
+	font-size: 2.5rem;
+	color: rgb(209, 7, 24);
+	cursor: pointer;
+	font: center;
+}
+
+.card {
+	border-radius: 30px;
+	background: #b1d5ca;
+}
+
+.forgot {
+	color: darkblue;
+}
+
+.small {
+	color: darkblue;
+}
+
+/* Registration form */
+
+.img-fluid {
+	border-radius: 20px;
+	background-position: center;
+	background-size: cover; 
+	margin-top:56px
+}
+
+
+
+.addUser {
+	text-align: left;
+}
+
+.userTable {
+	text-align: center;
+	color: red;
+}
+
+.noTable {
+	text-align: center;
+}
+
+.input {
+	width: 110%;
+}
+
+#send-table {
+	background-color: red;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#send-table:hover {
+	background-color: darkred;
+}
+
+.error-message {
+	color: red;
+	display: block;
+	font-size: 14px;
+}
+
+.success {
+	color: green;
+	padding: 10px;
+	text-align: center;
+	font-size: larger;
+}

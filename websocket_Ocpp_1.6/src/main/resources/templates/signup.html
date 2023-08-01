@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>This is signup form</title>
+
+</head>
+
+<body>
+	<section>
+		<div class="container mt-5">
+			<main class="signup_form">
+				<div class="cotainer">
+					<div class="card o-hidden border-0 shadow-lg my-5" style="border-radius: 20px; background: #b1d5b1">
+						<div class="card-body p-0">
+							<!-- Nested Row within Card Body -->
+							<div class="row">
+								<div class="col-lg-6 d-none d-lg-block bg-register-image">
+									<img src="https://i.postimg.cc/9Xn4DpfG/night-photograpy-toronto-on-1641178.jpg"
+										class="img-fluid" style="height: 700px">
+								</div>
+
+								<div class="col-lg-6">
+									<div class="p-5">
+
+										<div class="text-center">
+
+											<img src="https://evcharging-partner.powerlogixtech.com/uploads/powerlogix-logo.png"
+												style="height: 140px; width: auto">
+											<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+										</div>
+
+										<form th:action="@{/do_register}" method="post" th:object="${user}">
+
+											<div class="mb-3">
+
+												<label for="name_field" class="form-label">Name</label>
+												<input name="name" type="text" class="form-control" id="name_field"
+													aria-describedby="emailHelp" placeholder="Enter your email" required</div>
+
+
+											<div class="mb-3">
+
+												<label for="email_field" class="form-label">Email</label>
+												<input name="email" type="email" class="form-control" id="email_field"
+													aria-describedby="emailHelp" placeholder="Enter your email" required</div>
+
+												<div class="mb-3 mt-3">
+
+													<label for="password_field" class="form-label">Password</label> <input name="password" type="text"
+														class="form-control" id="password_field"
+														aria-describedby="emailHelp" placeholder="Enter your email"
+														required>
+
+												</div>
+
+													<div class="mb-3 text-center mt-5">
+														<button type="submit"
+															class="btn btn-success text-center">Submit</button>
+														<button type="reset"
+															class="btn btn-warning text-center">Reset</button>
+													</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</section>
+</body>
+
+</html>

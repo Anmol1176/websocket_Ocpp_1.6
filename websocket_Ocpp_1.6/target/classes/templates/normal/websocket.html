@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+
+<body>
+	<section>
+
+
+		<div id="chat-room">
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-md-8 offset-md-2">
+						<div class="card mt-3 text-center">
+							<div class="card-header">
+								<form class="form-inline">
+									<div class="form-group">
+										<label for="connect">
+											<h4>WebSocket Connection &nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+										</label>
+										<button id="connect" class="btn btn-success" type="submit">Connect</button>
+										<button id="disconnect" class="btn btn-danger d-none" type="submit"
+											disabled="disabled">Disconnect
+										</button>
+									</div>
+								</form>
+							</div>
+							<a th:href="@{/logout}" style="text-align: right;">Logout</a>
+
+							<div class="card-body">
+								<div class="addUser">
+
+									<button type="submit" class="btn btn-primary" data-bs-toggle="modal"
+										data-bs-target="#exampleModal" id="login">User Details</button>
+									<button onclick="startCharging()" class="btn btn-success"
+										data-bs-target="#exampleModal">StartCharging</button>
+									<button onclick="stopCharging()" class="btn btn-danger"
+										data-bs-target="#exampleModal">StopCharging</button>
+								</div>
+
+								<div class="input-group mt-3">
+									<!--
+								<input type="text" placeholder="Enter your message " id="message-value" autofocus
+									class="form-control">-->
+
+									<textarea class="form-control" placeholder="Enter your message"
+										id="message-value"></textarea>
+
+									<div class="input-group-append">
+										<button class="btn btn-dark" id="send-btn">Send</button>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="table-responsive mt-3">
+
+											<table id="conversation" class="table table-striped">
+												<thead>
+													<tr>
+														<th>Messages</th>
+													</tr>
+												</thead>
+
+												<tbody id="message-container-table" style="text-align: left;">
+												</tbody>
+											</table>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add User Detail</h5>
+						<!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+						<button type="button" onclick="handleButtonClick()" id="send-table">ShowTable</button>
+					</div>
+
+					<div class="container">
+						<div class="row">
+							<div class="col-md-10 offset-md-1">
+								<div style="overflow-x:auto;">
+								<table class="table">
+									<thead class="bg-dark" style="color: aliceblue;">
+										<tr>
+											<th>UserName</th>
+											<th>IdTag</th>
+											<th>ExpiryDate</th>
+											<th>ParentIdTag</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+
+									<tbody id="userDataBody">
+										<!-- User data will be populated dynamically here -->
+									</tbody>
+								</table>
+                              </div>
+							</div>
+						</div>
+                   </div>
+					<div class="row">
+						<div class="col-md-10 offset-md-1">
+							<div class="table-responsive mt-3">
+
+								<table id="conversation" class="table table-striped">
+									<thead>
+										<tr style="text-align: center;">
+											<th>Messages</th>
+										</tr>
+									</thead>
+
+									<tbody id="userDataTable" class="userTable">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="modal-body">
+						<div id="messageShow" class="success"></div>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-10 offset-md-1">
+
+									<form id="userForm" th:object="${user}" method="POST" class="mt-2">
+
+										<div class="mb-3">
+											<label for="username" class="form-label">User Name</label>&nbsp;<span
+												style="color:red;">*</span> <input type="text" name="username"
+												class="form-control" id="username" aria-describedby="emailHelp"
+												required>
+											<div class="error" id="usernameError"></div>
+										</div>
+
+										<div class="mb-3">
+											<label for="idtag" class="form-label">Id Tag</label>&nbsp;<span
+												style="color:red;">*</span> <input type="text" name="idtag"
+												class="form-control" id="idtag" required>
+											<div class="error" id="idtagError"></div>
+											<div id="messageDisplay" style="color: #ff0000;"></div>
+										</div>
+
+										<div class="mb-3">
+											<label for="expirydate" class="form-label">Expiry Date </label>&nbsp;<span
+												style="color:red;">*</span> <input type="text" name="expirydate"
+												class="form-control" id="expirydate" aria-describedby="emailHelp"
+												required>
+											<div class="error" id="expirydateError"></div>
+										</div>
+
+										<div class="mb-3">
+											<label for="parentIdTag" class="form-label">Parent Id Tag</label>&nbsp;<span
+												style="color:red;">*</span> <input type="text" name="parentIdTag"
+												class="form-control" id="parentIdTag" aria-describedby="emailHelp"
+												required>
+											<div class="error" id="parentIdTagError"></div>
+										</div>
+
+										<div class="mb-3">
+											<label for="status" class="form-label">Status</label>&nbsp;<span
+												style="color:red;">*</span>
+											<select name="status" class="form-select" id="status"
+												aria-label="Default select example" required>
+												<option selected></option>
+												<option>Accepted</option>
+												<option>Rejected</option>
+												<option>Expired</option>
+												<option>Invalid</option>
+												<option>Concurrenttx</option>
+											</select>
+											<div class="error" id="statusError"></div>
+										</div>
+										<div class="container text-center">
+
+											<button type="button" id="send-user" class="btn bg-success text-white">Add
+												User</button>
+										</div>
+									</form>
+
+									<form id="updateForm" th:object="${user}" method="POST" style="display: none;"
+										class="mt-2">
+
+										<div class="mb-3">
+											<label for="userId" class="form-label">User Id</label> <input type="text"
+												name="userId" class="form-control" id="userId"
+												aria-describedby="emailHelp" disabled>
+										</div>
+
+										<div class="mb-3">
+											<label for="userName" class="form-label">User Name</label> <input
+												type="text" name="username" class="form-control" id="userName"
+												aria-describedby="emailHelp">
+										</div>
+
+										<div class="mb-3">
+											<label for="idTag" class="form-label">Id Tag</label> <input type="text"
+												name="idtag" class="form-control" id="idTag">
+										</div>
+
+										<div class="mb-3">
+											<label for="expiryDate" class="form-label">Expiry Date </label> <input
+												type="text" name="expirydate" class="form-control" id="expiryDate"
+												aria-describedby="emailHelp">
+										</div>
+
+										<div class="mb-3">
+											<label for="parentidTag" class="form-label">Parent Id Tag</label> <input
+												type="text" name="parentIdTag" class="form-control" id="parentidTag"
+												aria-describedby="emailHelp">
+										</div>
+
+										<div class="mb-3">
+											<label for="Status" class="form-label">Status</label>
+											<select name="status" class="form-select" id="Status"
+												aria-label="Default select example">
+												<option selected></option>
+												<option>Accepted</option>
+												<option>Rejected</option>
+												<option>Expired</option>
+												<option>Invalid</option>
+												<option>Concurrenttx</option>
+											</select>
+										</div>
+										<div class="container text-center">
+											<button type="button" onclick="updateUser()" data-bs-dismiss="alert"
+												class="btn bg-primary text-white">Update
+											</button>
+										</div>
+
+									</form>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" onclick="handleButtonClick()" id="dis-connect" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+
+</body>
+
+</html>
